@@ -1,5 +1,7 @@
+import { path as ffmpegPath } from '@ffmpeg-installer/ffmpeg';
 import VideoDownloader from '@leorossi/vimeo-downloader';
 import { randomUUID } from 'crypto';
+import ffmpeg from 'fluent-ffmpeg';
 import { join } from 'path';
 
 interface Request {
@@ -7,7 +9,8 @@ interface Request {
 }
 
 interface Response {
-  file: string;
+  videoFile: string;
+  audioFile: string;
 }
 
 class DownloadFromVimeo {
@@ -16,16 +19,29 @@ class DownloadFromVimeo {
       referer: 'http://localhost:3333',
     });
 
-    const fileName = `video-${randomUUID()}`;
+    const fileName = randomUUID();
 
-    const dirPath = join(__dirname, '../../tmp');
+    const tmpDirPath = join(__dirname, '../../tmp');
 
-    await videoDownloader.download(url, fileName, dirPath);
+    await videoDownloader.download(url, fileName, tmpDirPath);
 
-    const file = join(dirPath, `${fileName}.mp4`);
+    const videoFile = join(tmpDirPath, `${fileName}.mp4`);
+
+    ffmpeg.setFfmpegPath(ffmpegPath);
+
+    const audioFile = join(tmpDirPath, `${fileName}.mp3`);
+
+    await new Promise<void>((resolve, reject) => {
+      ffmpeg(videoFile)
+        .toFormat('mp3')
+        .on('end', () => resolve())
+        .on('error', (err: Error) => reject(err))
+        .saveToFile(audioFile);
+    });
 
     return {
-      file,
+      videoFile,
+      audioFile,
     };
   }
 }

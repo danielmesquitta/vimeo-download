@@ -10,12 +10,14 @@
     "prisma:migrate": "prisma migrate dev --name init"
   },
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@koa/cors": "^3.1.0",
     "@koa/router": "^10.0.0",
     "@leorossi/vimeo-downloader": "^0.0.5",
     "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "dotenv": "^10.0.0",
+    "fluent-ffmpeg": "^2.1.2",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
@@ -25,12 +27,14 @@
     "koa-mount": "^4.0.0",
     "koa-static": "^5.0.0",
     "lodash.get": "^4.4.2",
+    "video-to-audio": "^1.0.1",
     "vimeo-downloader": "^1.0.4",
     "yup": "^0.32.9"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/bcryptjs": "^2.4.2",
+    "@types/fluent-ffmpeg": "^2.1.20",
     "@types/jsonwebtoken": "^8.5.2",
     "@types/koa": "^2.13.3",
     "@types/koa-bodyparser": "^4.3.1",
